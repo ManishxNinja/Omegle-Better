@@ -22,9 +22,43 @@ export class UserManager {
       name,
       socket
     });
+    console.log(this.users);
+    console.log("User Added");
     this.queue.push(socket.id);
+    this.clearQueue();
     socket.emit("lobby");
     this.initHandlers(socket);
+  }
+
+  clearQueue() {
+    console.log("Inside clear queues");
+    console.log(this.queue);
+    if(this.queue.length < 2) {
+      return;
+    }
+    let topVAlue = this.queue[this.queue.length - 1];
+    const user1 = this.users.find(x => {
+      if(x.socket.id === topVAlue) {
+        this.queue.pop();
+        return x;
+      }
+    });
+    topVAlue = this.queue[this.queue.length - 1];
+    const user2 = this.users.find(x => {
+      if(x.socket.id === topVAlue) {
+        this.queue.pop();
+        return x;
+      }
+    });
+    console.log(this.queue);
+    console.log(user1);
+    console.log(user2);
+    if(!user1 || !user2) {
+      return;
+    }
+    console.log("Creating rooms of users ")
+    const room = this.roomManager.createRoom(user1,user2);
+    this.clearQueue();
   }
 
   removeUser(socketId: string) {

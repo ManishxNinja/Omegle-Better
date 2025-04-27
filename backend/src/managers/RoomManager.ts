@@ -10,7 +10,7 @@ interface Room {
 export class RoomManager {
   private rooms: Map<string,Room>
   constructor() {
-    this.rooms = new Map<string,Room>
+    this.rooms = new Map<string,Room>()
   }
 
   createRoom(user1: User,user2: User) {
@@ -28,6 +28,16 @@ export class RoomManager {
     })
     
   }
+
+  // deleteRoom(roomId: string) {
+  //   const room = this.rooms.get(roomId);
+
+  //   if(!room) {
+  //     return;
+  //   }
+
+  //   this.rooms.delete(roomId);
+  // }
 
   onOffer(roomId: string,sdp: string,senderSocketId: string) {
     const room = this.rooms.get(roomId);
